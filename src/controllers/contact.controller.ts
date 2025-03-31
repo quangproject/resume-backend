@@ -1,3 +1,4 @@
+import { ENV } from "../config/env.config";
 import { HTTP_STATUS_CODE } from "../constant";
 import type { Contact, ContactForm } from "../dto/contact.dto";
 import { HttpException } from "../exceptions/http.exception";
@@ -23,8 +24,6 @@ export class ContactController {
     const validator = new InputValidator(contactForm);
 
     validator
-      .required("person")
-      .isString("person")
       .required("fullName")
       .isString("fullName")
       .required("email")
@@ -41,6 +40,7 @@ export class ContactController {
       );
     }
 
+    contactForm.person = ENV.USER_ID;
     return this.contactService.save(contactForm);
   }
 }
